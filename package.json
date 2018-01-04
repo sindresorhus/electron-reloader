@@ -1,6 +1,6 @@
 {
 	"name": "electron-reloader",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "Simple auto-reloading for Electron apps during development",
 	"license": "MIT",
 	"repository": "sindresorhus/electron-reloader",
