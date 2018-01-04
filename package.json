@@ -1,0 +1,52 @@
+{
+	"name": "electron-reloader",
+	"version": "0.0.0",
+	"description": "Simple auto-reloading for Electron apps during development",
+	"license": "MIT",
+	"repository": "sindresorhus/electron-reloader",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"scripts": {
+		"test": "xo",
+		"start": "electron test"
+	},
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"electron",
+		"reload",
+		"reloader",
+		"livereload",
+		"auto-reload",
+		"live-reload",
+		"refresh",
+		"restart",
+		"watch",
+		"watcher",
+		"watching",
+		"monitor",
+		"hot",
+		"files",
+		"fs",
+		"dev",
+		"development"
+	],
+	"dependencies": {
+		"chokidar": "^2.0.0",
+		"electron-is-dev": "^0.3.0"
+	},
+	"devDependencies": {
+		"electron": "^1.7.10",
+		"xo": "*"
+	},
+	"xo": {
+		"envs": [
+			"node",
+			"browser"
+		]
+	}
+}
