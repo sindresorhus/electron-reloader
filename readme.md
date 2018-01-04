@@ -4,6 +4,8 @@
 
 It *just works*. When files used in the main process are changed, the app is restarted, and when files used in the browser window are changed, the page is reloaded.
 
+Note that it will not work correctly if you transpile the main process JS files of your app, but it doesn't make sense to do that anyway.
+
 
 ## Install
 
