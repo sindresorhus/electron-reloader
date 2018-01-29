@@ -56,6 +56,15 @@ Type: `Array<string|RegExp>`
 
 Ignore patterns passed to [`chokidar`](https://github.com/paulmillr/chokidar#path-filtering). By default, files/directories starting with a `.`, `.map` files, and `node_modules` directories are ignored. This option is additive to those.
 
+##### watchRenderer
+
+Type: `boolean`<br>
+Default: `true`
+
+Watch files used in the renderer process and reload the window when they change.
+
+Setting this to `false` can be useful if you use a different reload strategy in the rendererer process, like [`HMR`](https://webpack.js.org/concepts/hot-module-replacement/).
+
 
 ## Tip
 
