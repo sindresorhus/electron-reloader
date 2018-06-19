@@ -80,6 +80,7 @@ Just add the source directory to the `ignore` option. The dist directory is alre
 - [electron-context-menu](https://github.com/sindresorhus/electron-context-menu) - Context menu for your Electron app
 - [electron-dl](https://github.com/sindresorhus/electron-dl) - Simplified file downloads for your Electron app
 - [electron-unhandled](https://github.com/sindresorhus/electron-unhandled) - Catch unhandled errors and promise rejections in your Electron app
+- [electron-serve](https://github.com/sindresorhus/electron-serve) - Static file serving for Electron apps
 
 
 ## License
