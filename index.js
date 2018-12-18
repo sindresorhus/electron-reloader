@@ -64,7 +64,7 @@ module.exports = (moduleObj, options) => {
 			console.log('File changed:', filePath);
 		}
 
-		if (mainProcessPaths.has(path.join(cwd, filePath))) {
+		if (options.forceRelaunch || mainProcessPaths.has(path.join(cwd, filePath))) {
 			electron.app.relaunch();
 			electron.app.exit(0);
 		} else {

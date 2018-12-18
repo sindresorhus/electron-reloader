@@ -65,6 +65,12 @@ Watch files used in the renderer process and reload the window when they change.
 
 Setting this to `false` can be useful if you use a different reload strategy in the rendererer process, like [`HMR`](https://webpack.js.org/concepts/hot-module-replacement/).
 
+##### forceRelaunch
+
+Type: `boolean`<br>
+Default: `false`
+
+Allways relaunch the app even when the changes don't need it.
 
 ## Tip
 
