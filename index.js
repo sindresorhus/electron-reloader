@@ -36,9 +36,11 @@ module.exports = (moduleObj, options) => {
 	}
 
 	options = Object.assign({
-		watchRenderer: true
+		watchRenderer: true,
+		interval: 0
 	}, options);
 
+	let lastModifiedTime = new Date().getTime();
 	const cwd = path.dirname(moduleObj.filename);
 	const mainProcessPaths = getMainProcessPaths(moduleObj);
 	const watchPaths = options.watchRenderer ? cwd : [...mainProcessPaths];
@@ -63,6 +65,14 @@ module.exports = (moduleObj, options) => {
 		if (options.debug) {
 			console.log('File changed:', filePath);
 		}
+
+		const interval = options.interval || 0;
+		const diff = new Date().getTime() - lastModifiedTime;
+		if (diff < interval) {
+			lastModifiedTime = new Date().getTime();
+			return;
+		}
+		lastModifiedTime = new Date().getTime();
 
 		if (mainProcessPaths.has(path.join(cwd, filePath))) {
 			electron.app.relaunch();
