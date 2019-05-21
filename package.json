@@ -36,12 +36,14 @@
 		"development"
 	],
 	"dependencies": {
-		"chokidar": "^2.0.0",
-		"electron-is-dev": "^0.3.0"
+		"chalk": "^2.4.2",
+		"chokidar": "^3.0.0",
+		"date-time": "^3.1.0",
+		"electron-is-dev": "^1.1.0"
 	},
 	"devDependencies": {
-		"electron": "^1.7.10",
-		"xo": "*"
+		"electron": "^5.0.1",
+		"xo": "^0.24.0"
 	},
 	"xo": {
 		"envs": [

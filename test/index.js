@@ -1,11 +1,16 @@
 'use strict';
-const electron = require('electron');
+const path = require('path');
+const {app, BrowserWindow} = require('electron');
 
 require('..')(module, {
 	debug: true
 });
 
-electron.app.on('ready', () => {
-	const win = new electron.BrowserWindow();
-	win.loadURL(`file://${__dirname}/index.html`);
-});
+let mainWindow;
+
+(async () => {
+	await app.whenReady();
+
+	mainWindow = new BrowserWindow();
+	await mainWindow.loadFile(path.join(__dirname, 'index.html'));
+})();

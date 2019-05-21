@@ -13,6 +13,8 @@ Note that it will not work correctly if you transpile the main process JS files 
 $ npm install --save-dev electron-reloader
 ```
 
+*Requires Electron 5 or later.*
+
 
 ## Usage
 
@@ -21,7 +23,7 @@ The following must be included in the app entry file, usually named `index.js`:
 ```js
 try {
 	require('electron-reloader')(module);
-} catch (err) {}
+} catch (_) {}
 ```
 
 You have to pass the `module` object so we can read the module graph and figure out which files belong to the main process.
@@ -35,13 +37,13 @@ The `try/catch` is needed so it doesn't throw `Cannot find module 'electron-relo
 
 #### module
 
-Type: `Object`
+Type: `object`
 
 The global `module` object.
 
 #### options
 
-Type: `Object`
+Type: `object`
 
 ##### debug
 
@@ -52,7 +54,7 @@ Prints watched paths and when files change. Can be useful to make sure you set i
 
 ##### ignore
 
-Type: `Array<string|RegExp>`
+Type: `Array<string | RegExp>`
 
 Ignore patterns passed to [`chokidar`](https://github.com/paulmillr/chokidar#path-filtering). By default, files/directories starting with a `.`, `.map` files, and `node_modules` directories are ignored. This option is additive to those.
 
