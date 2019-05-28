@@ -66,7 +66,7 @@ module.exports = (moduleObj, options) => {
 			console.log('File changed:', filePath);
 		}
 
-		const interval = options.interval || 0;
+		const interval = options.interval;
 		const diff = new Date().getTime() - lastModifiedTime;
 		if (diff < interval) {
 			lastModifiedTime = new Date().getTime();
