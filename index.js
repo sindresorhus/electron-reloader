@@ -6,6 +6,7 @@ const chokidar = require('chokidar');
 const isDev = require('electron-is-dev');
 const dateTime = require('date-time');
 const chalk = require('chalk');
+const findUp = require('find-up');
 
 function getMainProcessPaths(topModuleObject) {
 	const cwd = path.dirname(topModuleObject.filename);
@@ -27,7 +28,7 @@ function getMainProcessPaths(topModuleObject) {
 	return paths;
 }
 
-module.exports = (moduleObj, options) => {
+module.exports = async (moduleObj, options) => {
 	// This module should be a dev dependency, but guard
 	// this in case the user included it as a dependency
 	if (!isDev) {
@@ -43,7 +44,7 @@ module.exports = (moduleObj, options) => {
 		...options
 	};
 
-	const cwd = path.dirname(moduleObj.filename);
+	const cwd = path.dirname(await findUp('package.json'));
 	const mainProcessPaths = getMainProcessPaths(moduleObj);
 	const watchPaths = options.watchRenderer ? cwd : [...mainProcessPaths];
 
