@@ -1,0 +1,3 @@
+require('../../../')(module, {
+  debug: true
+});
