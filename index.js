@@ -6,6 +6,7 @@ const chokidar = require('chokidar');
 const isDev = require('electron-is-dev');
 const dateTime = require('date-time');
 const chalk = require('chalk');
+const findUp = require('find-up');
 
 function getMainProcessPaths(topModuleObject) {
 	const cwd = path.dirname(topModuleObject.filename);
@@ -43,7 +44,9 @@ module.exports = (moduleObj, options) => {
 		...options
 	};
 
-	const cwd = path.dirname(moduleObj.filename);
+	const mainProcessDir = path.dirname(moduleObj.filename);
+	const packageDir = findUp.sync('package.json', { cwd: mainProcessDir });
+	const cwd = packageDir ? path.dirname(packageDir) : mainProcessDir;
 	const mainProcessPaths = getMainProcessPaths(moduleObj);
 	const watchPaths = options.watchRenderer ? cwd : [...mainProcessPaths];
 
