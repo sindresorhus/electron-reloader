@@ -8,8 +8,7 @@ const dateTime = require('date-time');
 const chalk = require('chalk');
 const findUp = require('find-up');
 
-function getMainProcessPaths(topModuleObject) {
-	const cwd = path.dirname(topModuleObject.filename);
+function getMainProcessPaths(topModuleObject, cwd) {
 	const paths = new Set([topModuleObject.filename]);
 
 	const getPaths = moduleObject => {
@@ -47,7 +46,7 @@ module.exports = (moduleObj, options) => {
 	const mainProcessDir = path.dirname(moduleObj.filename);
 	const packageDir = findUp.sync('package.json', {cwd: mainProcessDir});
 	const cwd = packageDir ? path.dirname(packageDir) : mainProcessDir;
-	const mainProcessPaths = getMainProcessPaths(moduleObj);
+	const mainProcessPaths = getMainProcessPaths(moduleObj, cwd);
 	const watchPaths = options.watchRenderer ? cwd : [...mainProcessPaths];
 
 	const watcher = chokidar.watch(watchPaths, {
