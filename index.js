@@ -45,7 +45,7 @@ module.exports = (moduleObj, options) => {
 	};
 
 	const mainProcessDir = path.dirname(moduleObj.filename);
-	const packageDir = findUp.sync('package.json', { cwd: mainProcessDir });
+	const packageDir = findUp.sync('package.json', {cwd: mainProcessDir});
 	const cwd = packageDir ? path.dirname(packageDir) : mainProcessDir;
 	const mainProcessPaths = getMainProcessPaths(moduleObj);
 	const watchPaths = options.watchRenderer ? cwd : [...mainProcessPaths];
