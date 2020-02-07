@@ -6,7 +6,6 @@ It *just works*. When files used in the main process are changed, the app is res
 
 Note that it will not work correctly if you transpile the main process JS files of your app, but it doesn't make sense to do that anyway.
 
-
 ## Install
 
 ```
@@ -14,7 +13,6 @@ $ npm install --save-dev electron-reloader
 ```
 
 *Requires Electron 5 or later.*
-
 
 ## Usage
 
@@ -30,10 +28,9 @@ You have to pass the `module` object so we can read the module graph and figure 
 
 The `try/catch` is needed so it doesn't throw `Cannot find module 'electron-reloader'` in production.
 
-
 ## API
 
-### reloader(module, [options])
+### reloader(module, options?)
 
 #### module
 
@@ -47,7 +44,7 @@ Type: `object`
 
 ##### debug
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: `false`
 
 Prints watched paths and when files change. Can be useful to make sure you set it up correctly.
@@ -60,20 +57,18 @@ Ignore patterns passed to [`chokidar`](https://github.com/paulmillr/chokidar#pat
 
 ##### watchRenderer
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: `true`
 
 Watch files used in the renderer process and reload the window when they change.
 
 Setting this to `false` can be useful if you use a different reload strategy in the rendererer process, like [`HMR`](https://webpack.js.org/concepts/hot-module-replacement/).
 
-
 ## Tip
 
-### Using it with webpack watch mode
+### Using it with Webpack watch mode
 
 Just add the source directory to the `ignore` option. The dist directory is already watched, so when a source file changes, webpack will build it and output it to the dist directory, which this module will detect.
-
 
 ## Related
 
@@ -83,8 +78,3 @@ Just add the source directory to the `ignore` option. The dist directory is alre
 - [electron-dl](https://github.com/sindresorhus/electron-dl) - Simplified file downloads for your Electron app
 - [electron-unhandled](https://github.com/sindresorhus/electron-unhandled) - Catch unhandled errors and promise rejections in your Electron app
 - [electron-serve](https://github.com/sindresorhus/electron-serve) - Static file serving for Electron apps
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)

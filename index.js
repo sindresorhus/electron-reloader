@@ -27,14 +27,14 @@ function getMainProcessPaths(topModuleObject, cwd) {
 	return paths;
 }
 
-module.exports = (moduleObj, options) => {
+module.exports = (moduleObject, options) => {
 	// This module should be a dev dependency, but guard
-	// this in case the user included it as a dependency
+	// this in case the user included it as a dependency.
 	if (!isDev) {
 		return;
 	}
 
-	if (!moduleObj) {
+	if (!moduleObject) {
 		throw new Error('You have to pass the `module` object');
 	}
 
@@ -43,10 +43,10 @@ module.exports = (moduleObj, options) => {
 		...options
 	};
 
-	const mainProcessDir = path.dirname(moduleObj.filename);
-	const packageDir = findUp.sync('package.json', {cwd: mainProcessDir});
-	const cwd = packageDir ? path.dirname(packageDir) : mainProcessDir;
-	const mainProcessPaths = getMainProcessPaths(moduleObj, cwd);
+	const mainProcessDirectory = path.dirname(moduleObject.filename);
+	const packageDirectory = findUp.sync('package.json', {cwd: mainProcessDirectory});
+	const cwd = packageDirectory ? path.dirname(packageDirectory) : mainProcessDirectory;
+	const mainProcessPaths = getMainProcessPaths(moduleObject, cwd);
 	const watchPaths = options.watchRenderer ? cwd : [...mainProcessPaths];
 
 	const watcher = chokidar.watch(watchPaths, {
