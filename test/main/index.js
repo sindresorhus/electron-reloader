@@ -2,7 +2,7 @@
 const path = require('path');
 const {app, BrowserWindow} = require('electron');
 
-require('..')(module, {
+require('../..')(module, {
 	debug: true
 });
 
@@ -12,5 +12,5 @@ let mainWindow;
 	await app.whenReady();
 
 	mainWindow = new BrowserWindow();
-	await mainWindow.loadFile(path.join(__dirname, 'index.html'));
+	await mainWindow.loadFile(path.join(__dirname, '../index.html'));
 })();
