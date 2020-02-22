@@ -72,8 +72,8 @@ module.exports = (moduleObject, options) => {
 		}
 
 		if (mainProcessPaths.has(path.join(cwd, filePath))) {
-			// Prevent multiple instances of Electron from being started due to change
-			// handler being called multiple times before original instance exits
+			// Prevent multiple instances of Electron from being started due to the change
+			// handler being called multiple times before the original instance exits.
 			if (!isRelaunching) {
 				electron.app.relaunch();
 				electron.app.exit(0);
