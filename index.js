@@ -48,6 +48,7 @@ module.exports = (moduleObject, options) => {
 	const cwd = packageDirectory ? path.dirname(packageDirectory) : mainProcessDirectory;
 	const mainProcessPaths = getMainProcessPaths(moduleObject, cwd);
 	const watchPaths = options.watchRenderer ? cwd : [...mainProcessPaths];
+	let isRelaunching = false;
 
 	const watcher = chokidar.watch(watchPaths, {
 		cwd,
@@ -71,8 +72,14 @@ module.exports = (moduleObject, options) => {
 		}
 
 		if (mainProcessPaths.has(path.join(cwd, filePath))) {
-			electron.app.relaunch();
-			electron.app.exit(0);
+			// Prevent multiple instances of Electron from being started due to the change
+			// handler being called multiple times before the original instance exits.
+			if (!isRelaunching) {
+				electron.app.relaunch();
+				electron.app.exit(0);
+			}
+
+			isRelaunching = true;
 		} else {
 			for (const window_ of electron.BrowserWindow.getAllWindows()) {
 				window_.webContents.reloadIgnoringCache();
