@@ -83,6 +83,10 @@ module.exports = (moduleObject, options) => {
 		} else {
 			for (const window_ of electron.BrowserWindow.getAllWindows()) {
 				window_.webContents.reloadIgnoringCache();
+
+				for (const view_ of window_.getBrowserViews()) {
+					view_.webContents.reloadIgnoringCache();
+				}
 			}
 		}
 	});
