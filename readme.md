@@ -1,4 +1,4 @@
-# electron-reloader [![Build Status](https://travis-ci.org/sindresorhus/electron-reloader.svg?branch=master)](https://travis-ci.org/sindresorhus/electron-reloader)
+# electron-reloader
 
 > Simple auto-reloading for Electron apps during development
 
