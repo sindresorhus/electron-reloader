@@ -1,8 +1,8 @@
 import {expectType} from 'tsd';
-import setupElectronReloader = require('.');
+import electronReloader = require('.');
 
-expectType<void>(setupElectronReloader(module));
-expectType<void>(setupElectronReloader(module, {watchRenderer: true}));
-expectType<void>(setupElectronReloader(module, {debug: true, ignore: ['tmp', /dist/]}));
-expectType<void>(setupElectronReloader(module, {watchRenderer: true, ignore: ['tmp', /dist/]}));
-expectType<void>(setupElectronReloader(module, {watchRenderer: true, debug: true, ignore: ['tmp', /dist/]}));
+expectType<void>(electronReloader(module));
+expectType<void>(electronReloader(module, {watchRenderer: true}));
+expectType<void>(electronReloader(module, {debug: true, ignore: ['tmp', /dist/]}));
+expectType<void>(electronReloader(module, {watchRenderer: true, ignore: ['tmp', /dist/]}));
+expectType<void>(electronReloader(module, {watchRenderer: true, debug: true, ignore: ['tmp', /dist/]}));
