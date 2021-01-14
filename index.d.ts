@@ -3,6 +3,13 @@
 declare namespace electronReloader {
 	interface Options {
 		/**
+		Ignore patterns passed to [`chokidar`](https://github.com/paulmillr/chokidar#path-filtering).
+
+		By default, files/directories starting with a `.`, `.map` files, and `node_modules` directories are ignored. This option is additive to those.
+		*/
+		readonly ignore?: ReadonlyArray<string | RegExp>;
+
+		/**
 		Watch files used in the renderer process and reload the window when they change.
 
 		@default true
@@ -15,13 +22,6 @@ declare namespace electronReloader {
 		@default false
 		*/
 		readonly debug?: boolean;
-
-		/**
-		Ignore patterns passed to [`chokidar`](https://github.com/paulmillr/chokidar#path-filtering).
-
-		By default, files/directories starting with a `.`, `.map` files, and `node_modules` directories are ignored. This option is additive to those.
-		*/
-		readonly ignore?: readonly (string | RegExp)[];
 	}
 }
 
@@ -30,8 +30,6 @@ declare namespace electronReloader {
 
 @example
 ```
-import electronReloader = require('electron-reloader');
-
 try {
 	require('electron-reloader')(module);
 } catch {}

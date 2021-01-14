@@ -38,17 +38,17 @@
 		"development"
 	],
 	"dependencies": {
-		"chalk": "^3.0.0",
-		"chokidar": "^3.3.1",
+		"chalk": "^4.1.0",
+		"chokidar": "^3.5.0",
 		"date-time": "^3.1.0",
-		"electron-is-dev": "^1.1.0",
-		"find-up": "^4.1.0"
+		"electron-is-dev": "^1.2.0",
+		"find-up": "^5.0.0"
 	},
 	"devDependencies": {
 		"@types/node": "^14.14.20",
-		"electron": "^8.0.0",
+		"electron": "^11.2.0",
 		"tsd": "^0.14.0",
-		"xo": "^0.26.1"
+		"xo": "^0.37.1"
 	},
 	"xo": {
 		"envs": [

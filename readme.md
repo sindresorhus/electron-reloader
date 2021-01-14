@@ -21,7 +21,7 @@ The following must be included in the app entry file, usually named `index.js`:
 ```js
 try {
 	require('electron-reloader')(module);
-} catch (_) {}
+} catch {}
 ```
 
 You have to pass the `module` object so we can read the module graph and figure out which files belong to the main process.
@@ -42,18 +42,13 @@ The global `module` object.
 
 Type: `object`
 
-##### debug
-
-Type: `boolean`\
-Default: `false`
-
-Prints watched paths and when files change. Can be useful to make sure you set it up correctly.
-
 ##### ignore
 
 Type: `Array<string | RegExp>`
 
-Ignore patterns passed to [`chokidar`](https://github.com/paulmillr/chokidar#path-filtering). By default, files/directories starting with a `.`, `.map` files, and `node_modules` directories are ignored. This option is additive to those.
+Ignore patterns passed to [`chokidar`](https://github.com/paulmillr/chokidar#path-filtering).
+
+By default, files/directories starting with a `.`, `.map` files, and `node_modules` directories are ignored. This option is additive to those.
 
 ##### watchRenderer
 
@@ -63,6 +58,15 @@ Default: `true`
 Watch files used in the renderer process and reload the window when they change.
 
 Setting this to `false` can be useful if you use a different reload strategy in the rendererer process, like [`HMR`](https://webpack.js.org/concepts/hot-module-replacement/).
+
+##### debug
+
+Type: `boolean`\
+Default: `false`
+
+Prints watched paths and when files change.
+
+Can be useful to make sure you set it up correctly.
 
 ## Tip
 
