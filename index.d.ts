@@ -1,29 +1,38 @@
 /// <reference types="node"/>
 
+declare namespace electronReloader {
+	interface Options {
+		/**
+		 * Watch files used in the renderer process and reload the window when they change.
+		 * @default true
+		 */
+		readonly watchRenderer?: boolean;
+
+		/**
+		 * Prints watched paths and when files change. Can be useful to make sure you set it up correctly.
+		 * @default false
+		 */
+		readonly debug?: boolean;
+
+		/**
+		 * Ignore patterns passed to [`chokidar`](https://github.com/paulmillr/chokidar#path-filtering). By default, files/directories starting with a `.`, `.map` files, and `node_modules` directories are ignored. This option is additive to those.
+		 */
+		readonly ignore?: readonly (string | RegExp)[];
+	}
+}
+
 /**
  * @param moduleObject - Global `module` object.
- * @param options.watchRenderer - Watch files used in the renderer process and reload the window when they change. Defaults to `true`.
- * @param options.debug - Prints watched paths and when files change. Can be useful to make sure you set it up correctly.
- * @param options.ignore - Ignore patterns passed to [`chokidar`](https://github.com/paulmillr/chokidar#path-filtering). By default, files/directories starting with a `.`, `.map` files, and `node_modules` directories are ignored. This option is additive to those.
- *
  * @example
  * ```
- * import setupElectronReloader = require('electron-reloader');
- *
  * try {
- * 	setupElectronReloader(module, {ignore: ['client/src']});
- * } catch (error) {
- * 	console.error('Unable to setup reloading', error);
- * }
+ * 	require('electron-reloader')(module);
+ * } catch (_) {}
  * ```
  */
 declare function electronReloader(
 	moduleObject: NodeModule,
-	options?: {
-		watchRenderer?: boolean,
-		debug?: boolean,
-		ignore?: ReadonlyArray<string | RegExp>
-	}
+	options?: electronReloader.Options
 ): void;
 
 export = electronReloader;
