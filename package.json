@@ -11,11 +11,12 @@
 		"url": "https://sindresorhus.com"
 	},
 	"scripts": {
-		"test": "xo",
+		"test": "xo && tsd",
 		"start": "electron test/main"
 	},
 	"files": [
-		"index.js"
+		"index.js",
+		"index.d.ts"
 	],
 	"keywords": [
 		"electron",
@@ -44,7 +45,9 @@
 		"find-up": "^4.1.0"
 	},
 	"devDependencies": {
+		"@types/node": "^14.14.20",
 		"electron": "^8.0.0",
+		"tsd": "^0.14.0",
 		"xo": "^0.26.1"
 	},
 	"xo": {
