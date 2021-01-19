@@ -42,7 +42,7 @@ The global `module` object.
 
 Type: `object`
 
-##### ignore
+##### ignored
 
 Type: `Array<string | RegExp>`
 
