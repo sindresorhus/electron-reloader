@@ -42,6 +42,10 @@ module.exports = (moduleObject, options) => {
 		throw new Error('You have to pass the `module` object');
 	}
 
+	if (options.ignored) {
+		throw new Error('The option is named `ignore` not `ignored`');
+	}
+
 	options = {
 		watchRenderer: true,
 		...options

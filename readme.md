@@ -8,8 +8,8 @@ Note that it will not work correctly if you transpile the main process JS files 
 
 ## Install
 
-```
-$ npm install --save-dev electron-reloader
+```sh
+npm install --save-dev electron-reloader
 ```
 
 *Requires Electron 5 or later.*
