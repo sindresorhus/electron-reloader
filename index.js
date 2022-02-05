@@ -13,6 +13,10 @@ function getMainProcessPaths(topModuleObject, cwd) {
 
 	const getPaths = moduleObject => {
 		for (const child of moduleObject.children) {
+			if (paths.has(child.filename)) {
+				continue;
+			}
+
 			if (path.relative(cwd, child.filename).includes('node_modules')) {
 				continue;
 			}
