@@ -31,7 +31,7 @@ function getMainProcessPaths(topModuleObject, cwd) {
 	return paths;
 }
 
-module.exports = (moduleObject, options) => {
+module.exports = (moduleObject, options = {}) => {
 	// This module should be a dev dependency, but guard
 	// this in case the user included it as a dependency.
 	if (!isDev) {
