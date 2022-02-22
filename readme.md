@@ -20,7 +20,7 @@ The following must be included in the app entry file, usually named `index.js`:
 
 ```js
 try {
-	require('electron-reloader')(module);
+	require('electron-reloader')(module, {});
 } catch {}
 ```
 
