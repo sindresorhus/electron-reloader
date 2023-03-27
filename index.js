@@ -68,10 +68,6 @@ module.exports = (moduleObject, options = {}) => {
 		].concat(options.ignore)
 	});
 
-	electron.app.on('quit', () => {
-		watcher.close();
-	});
-
 	if (options.debug) {
 		watcher.on('ready', () => {
 			console.log('Watched paths:', inspect(watcher.getWatched(), {compact: false, colors: true}));
