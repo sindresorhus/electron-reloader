@@ -1,8 +1,12 @@
-import {expectType} from 'tsd';
-import electronReloader = require('.');
+import {expectError, expectType} from 'tsd';
+import electronReloader from './index.js';
 
-expectType<void>(electronReloader(module));
-expectType<void>(electronReloader(module, {watchRenderer: true}));
-expectType<void>(electronReloader(module, {debug: true, ignore: ['tmp', /dist/]}));
-expectType<void>(electronReloader(module, {watchRenderer: true, ignore: ['tmp', /dist/]}));
-expectType<void>(electronReloader(module, {watchRenderer: true, debug: true, ignore: ['tmp', /dist/]}));
+declare const nodeModule: NodeJS.Module;
+declare const pattern: RegExp;
+
+expectType<void>(electronReloader(import.meta));
+expectType<void>(electronReloader(import.meta, {watchRenderer: true}));
+expectType<void>(electronReloader(import.meta, {debug: true, ignore: ['tmp', pattern]}));
+expectType<void>(electronReloader(import.meta, {watchRenderer: false, ignore: [pattern]}));
+expectError(electronReloader(nodeModule));
+expectError(electronReloader(nodeModule, {ignored: []}));

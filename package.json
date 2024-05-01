@@ -5,14 +5,19 @@
 	"license": "MIT",
 	"repository": "sindresorhus/electron-reloader",
 	"funding": "https://github.com/sponsors/sindresorhus",
-	"author": {
-		"name": "Sindre Sorhus",
-		"email": "sindresorhus@gmail.com",
-		"url": "https://sindresorhus.com"
+	"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+	"type": "module",
+	"exports": {
+		"types": "./index.d.ts",
+		"default": "./index.js"
+	},
+	"sideEffects": false,
+	"engines": {
+		"node": ">=24"
 	},
 	"scripts": {
-		"test": "xo && tsd",
-		"start": "electron test/main"
+		"start": "electron test/main/index.mjs",
+		"test": "xo && tsd"
 	},
 	"files": [
 		"index.js",
@@ -38,22 +43,28 @@
 		"development"
 	],
 	"dependencies": {
-		"chalk": "^4.1.0",
-		"chokidar": "^3.5.0",
-		"date-time": "^3.1.0",
-		"electron-is-dev": "^1.2.0",
-		"find-up": "^5.0.0"
+		"chalk": "^6.0.0",
+		"chokidar": "^5.0.0",
+		"date-time": "^4.0.0",
+		"electron-is-dev": "^3.0.1",
+		"find-up": "^8.0.0"
 	},
 	"devDependencies": {
-		"@types/node": "^14.14.20",
-		"electron": "^11.2.0",
-		"tsd": "^0.14.0",
-		"xo": "^0.37.1"
+		"@types/node": "^26.6.2",
+		"electron": "^44.4.3",
+		"tsd": "^0.33.0",
+		"xo": "^5.0.1"
 	},
-	"xo": {
-		"envs": [
-			"node",
-			"browser"
-		]
-	}
+	"tsd": {
+		"compilerOptions": {
+			"module": "esnext"
+		}
+	},
+	"xo": [
+		{
+			"ignores": [
+				"test/index.html"
+			]
+		}
+	]
 }

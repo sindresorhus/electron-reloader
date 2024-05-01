@@ -2,7 +2,7 @@
 
 > Simple auto-reloading for Electron apps during development
 
-It *just works*. When files used in the main process are changed, the app is restarted, and when files used in the browser window are changed, the page is reloaded.
+It *just works*. When a file changes, the app is restarted.
 
 Note that it will not work correctly if you transpile the main process JS files of your app, but it doesn't make sense to do that anyway.
 
@@ -12,7 +12,7 @@ Note that it will not work correctly if you transpile the main process JS files 
 npm install --save-dev electron-reloader
 ```
 
-*Requires Electron 5 or later.*
+*Requires an ESM main process and Electron 44 or later.*
 
 ## Usage
 
@@ -20,23 +20,27 @@ The following must be included in the app entry file, usually named `index.js`:
 
 ```js
 try {
-	require('electron-reloader')(module);
+	const {default: reload} = await import('electron-reloader');
+
+	reload(import.meta);
 } catch {}
 ```
 
-You have to pass the `module` object so we can read the module graph and figure out which files belong to the main process.
+You have to pass `import.meta` so we can find the directory to watch.
+
+Since an [ES module](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) has no module graph, main process files cannot be distinguished from renderer files, so any watched file change restarts the app.
 
 The `try/catch` is needed so it doesn't throw `Cannot find module 'electron-reloader'` in production.
 
 ## API
 
-### reloader(module, options?)
+### reload(importMeta, options?)
 
-#### module
+#### importMeta
 
 Type: `object`
 
-The global `module` object.
+The [`import.meta`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import.meta) object of the main process entry file.
 
 #### options
 
@@ -46,7 +50,7 @@ Type: `object`
 
 Type: `Array<string | RegExp>`
 
-Ignore patterns passed to [`chokidar`](https://github.com/paulmillr/chokidar#path-filtering).
+Paths or regular expressions to ignore, passed to [`chokidar`](https://github.com/paulmillr/chokidar#path-filtering). Globs are not supported, and a path must match exactly. Paths are relative to the package directory.
 
 By default, files/directories starting with a `.`, `.map` files, and `node_modules` directories are ignored. This option is additive to those.
 
@@ -55,9 +59,9 @@ By default, files/directories starting with a `.`, `.map` files, and `node_modul
 Type: `boolean`\
 Default: `true`
 
-Watch files used in the renderer process and reload the window when they change.
+Watch files used in the renderer process and restart the app when they change.
 
-Setting this to `false` can be useful if you use a different reload strategy in the rendererer process, like [`HMR`](https://webpack.js.org/concepts/hot-module-replacement/).
+Setting this to `false` can be useful if you use a different reload strategy in the renderer process, like [`HMR`](https://webpack.js.org/concepts/hot-module-replacement/).
 
 ##### debug
 
