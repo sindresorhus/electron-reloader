@@ -9,4 +9,4 @@ expectType<void>(electronReloader(import.meta, {watchRenderer: true}));
 expectType<void>(electronReloader(import.meta, {debug: true, ignore: ['tmp', pattern]}));
 expectType<void>(electronReloader(import.meta, {watchRenderer: false, ignore: [pattern]}));
 expectError(electronReloader(nodeModule));
-expectError(electronReloader(nodeModule, {ignored: []}));
+expectError(electronReloader(import.meta, {ignored: []}));

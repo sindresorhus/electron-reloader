@@ -13,7 +13,7 @@
 	},
 	"sideEffects": false,
 	"engines": {
-		"node": ">=24"
+		"node": ">=22"
 	},
 	"scripts": {
 		"start": "electron test/main/index.mjs",
@@ -51,7 +51,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^26.6.2",
-		"electron": "^44.4.3",
+		"electron": "^44.4.5",
 		"tsd": "^0.33.0",
 		"xo": "^5.0.1"
 	},
