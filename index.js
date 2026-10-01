@@ -1,4 +1,6 @@
+import {spawn} from 'node:child_process';
 import path from 'node:path';
+import process from 'node:process';
 import {fileURLToPath} from 'node:url';
 import {inspect} from 'node:util';
 import {app} from 'electron';
@@ -63,7 +65,13 @@ export default function electronReloader(importMeta, {watchRenderer = true, igno
 		}
 
 		isRelaunching = true;
-		app.relaunch();
+
+		// We do not use `app.relaunch()` as it sends the output of the new instance to `/dev/null`. The single instance lock is released first so the new instance can get it while this one exits.
+		app.releaseSingleInstanceLock();
+		spawn(process.execPath, process.argv.slice(1), {
+			detached: true, // Keeps the new instance alive on Windows when this one exits.
+			stdio: 'inherit',
+		}).unref();
 		app.exit(0);
 	});
 }

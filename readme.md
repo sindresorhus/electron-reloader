@@ -30,6 +30,9 @@ Since an [ES module](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff
 
 The `try/catch` is needed so it doesn't throw `Cannot find module 'electron-reloader'` in production.
 
+> [!NOTE]
+> The restarted app is a new process. Its output still goes to the terminal, but the `electron` command exits on the first restart, so the terminal prompt comes back and <kbd>Ctrl</kbd>+<kbd>C</kbd> does not quit the app. Quit the app normally instead.
+
 ## API
 
 ### reload(importMeta, options?)
