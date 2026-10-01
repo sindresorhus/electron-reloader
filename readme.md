@@ -4,8 +4,6 @@
 
 It *just works*. When a file changes, the app is restarted.
 
-Note that it will not work correctly if you transpile the main process JS files of your app, but it doesn't make sense to do that anyway.
-
 ## Install
 
 ```sh
@@ -72,7 +70,11 @@ Prints watched paths and when files change.
 
 Can be useful to make sure you set it up correctly.
 
-## Tip
+## Tips
+
+### Using it with TypeScript
+
+Compile the main process to ESM (for example, `"module": "nodenext"` in `tsconfig.json` with `"type": "module"` in `package.json`), and put the `reload(import.meta)` call in the source of the entry file. Then add the source directory to the `ignore` option, so the app only restarts when the compiled output changes.
 
 ### Using it with Webpack watch mode
 
