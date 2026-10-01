@@ -1,10 +1,10 @@
 export type Options = {
 	/**
-	Paths or regular expressions to ignore, passed to [`chokidar`](https://github.com/paulmillr/chokidar#path-filtering). Globs are not supported, and a path must match exactly. Paths are relative to the package directory.
+	Paths, regular expressions, or functions to ignore, passed to [`chokidar`](https://github.com/paulmillr/chokidar#path-filtering). Globs are not supported, and a path must match exactly. Paths are relative to the package directory. Regular expressions are tested against the absolute path, with forward slashes also on Windows, so do not anchor them with `^`. To ignore a directory, use a path like `'src'`, and use a regular expression for patterns like `/\.test\.js$/`. A function receives the absolute path, with forward slashes. Return `true` to ignore the path.
 
 	By default, files/directories starting with a `.`, `.map` files, and `node_modules` directories are ignored. This option is additive to those.
 	*/
-	readonly ignore?: ReadonlyArray<string | RegExp>;
+	readonly ignore?: ReadonlyArray<string | RegExp | ((path: string) => boolean)>;
 
 	/**
 	Watch files used in the renderer process and restart the app when they change.
