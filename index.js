@@ -1,9 +1,10 @@
 import {spawn} from 'node:child_process';
+import {Session} from 'node:inspector';
 import path from 'node:path';
 import process from 'node:process';
 import {fileURLToPath} from 'node:url';
 import {inspect} from 'node:util';
-import {app} from 'electron';
+import {app, webContents} from 'electron';
 import chalk from 'chalk';
 import chokidar from 'chokidar';
 import dateTime from 'date-time';
@@ -25,15 +26,23 @@ export default function electronReloader(importMeta, {watchRenderer = true, igno
 		throw new Error('The option is named `ignore` not `ignored`');
 	}
 
-	// An ES module has no module graph, so there is no way to know which files belong to the main process. Any file change restarts the app.
-	const mainProcessFile = fileURLToPath(importMeta.url);
-	const mainProcessDirectory = path.dirname(mainProcessFile);
+	const mainProcessDirectory = path.dirname(fileURLToPath(importMeta.url));
 	const packageDirectory = findUpSync('package.json', {cwd: mainProcessDirectory});
 	const cwd = packageDirectory ? path.dirname(packageDirectory) : mainProcessDirectory;
-	const watchPaths = watchRenderer ? cwd : mainProcessFile;
+	const mainProcessFiles = new Set();
 	let isRelaunching = false;
 
-	const watcher = chokidar.watch(watchPaths, {
+	// An ES module has no public module graph, so the inspector is used to know which files belong to the main process. When the debugger is enabled, V8 reports the scripts that are already loaded, and then each new one.
+	const session = new Session();
+	session.connect();
+	session.on('Debugger.scriptParsed', ({params: {url}}) => {
+		if (url.startsWith('file:')) {
+			mainProcessFiles.add(fileURLToPath(url));
+		}
+	});
+	session.post('Debugger.enable');
+
+	const watcher = chokidar.watch(cwd, {
 		cwd,
 		ignored: [
 			/(?:^|[\/\\])\../v, // Dotfiles
@@ -44,6 +53,7 @@ export default function electronReloader(importMeta, {watchRenderer = true, igno
 	});
 
 	app.on('quit', () => {
+		session.disconnect();
 		watcher.close();
 	});
 
@@ -61,6 +71,21 @@ export default function electronReloader(importMeta, {watchRenderer = true, igno
 		// Prevent multiple instances of Electron from being started due to the change
 		// handler being called multiple times before the original instance exits.
 		if (isRelaunching) {
+			return;
+		}
+
+		if (!mainProcessFiles.has(path.join(cwd, filePath))) {
+			if (!watchRenderer) {
+				return;
+			}
+
+			for (const contents of webContents.getAllWebContents()) {
+				// DevTools has the type `remote`. A `<webview>` page reloads with the page that contains it.
+				if (!['remote', 'webview'].includes(contents.getType())) {
+					contents.reloadIgnoringCache();
+				}
+			}
+
 			return;
 		}
 

@@ -2,7 +2,7 @@
 
 > Simple auto-reloading for Electron apps during development
 
-It *just works*. When a file changes, the app is restarted.
+It *just works*. When a main process file changes, the app is restarted. When any other file changes, the windows are reloaded.
 
 ## Install
 
@@ -26,7 +26,7 @@ try {
 
 You have to pass `import.meta` so we can find the directory to watch.
 
-Since an [ES module](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) has no module graph, main process files cannot be distinguished from renderer files, so any watched file change restarts the app.
+A main process file is a JavaScript file the main process has loaded. Other files the main process uses, like JSON modules, files read with `fs`, and worker scripts, are not main process files, so a change to them does not restart the app.
 
 The `try/catch` is needed so it doesn't throw `Cannot find module 'electron-reloader'` in production.
 
@@ -60,7 +60,7 @@ By default, files/directories starting with a `.`, `.map` files, and `node_modul
 Type: `boolean`\
 Default: `true`
 
-Watch files used in the renderer process and restart the app when they change.
+Reload the windows when a file that is not a main process file changes.
 
 Setting this to `false` can be useful if you use a different reload strategy in the renderer process, like [`HMR`](https://webpack.js.org/concepts/hot-module-replacement/).
 
@@ -77,7 +77,7 @@ Can be useful to make sure you set it up correctly.
 
 ### Using it with TypeScript
 
-Compile the main process to ESM (for example, `"module": "nodenext"` in `tsconfig.json` with `"type": "module"` in `package.json`), and put the `reload(import.meta)` call in the source of the entry file. Then add the source directory to the `ignore` option, so the app only restarts when the compiled output changes.
+Compile the main process to ESM (for example, `"module": "nodenext"` in `tsconfig.json` with `"type": "module"` in `package.json`), and put the `reload(import.meta)` call in the source of the entry file. Then add the source directory to the `ignore` option, so it only reacts when the compiled output changes.
 
 ### Using it with Webpack watch mode
 

@@ -6,7 +6,8 @@ reload(import.meta, {
 	debug: true,
 });
 
-await app.whenReady();
-
-const mainWindow = new BrowserWindow();
-await mainWindow.loadFile(path.join(import.meta.dirname, '../index.html'));
+// A top-level `await app.whenReady()` never resolves in the entry file, as the `ready` event fires after the entry file finishes loading.
+app.on('ready', async () => {
+	const mainWindow = new BrowserWindow();
+	await mainWindow.loadFile(path.join(import.meta.dirname, '../index.html'));
+});

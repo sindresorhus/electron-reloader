@@ -7,7 +7,9 @@ export type Options = {
 	readonly ignore?: ReadonlyArray<string | RegExp | ((path: string) => boolean)>;
 
 	/**
-	Watch files used in the renderer process and restart the app when they change.
+	Reload the windows when a file that is not a main process file changes.
+
+	Setting this to `false` can be useful if you use a different reload strategy in the renderer process, like [`HMR`](https://webpack.js.org/concepts/hot-module-replacement/).
 
 	@default true
 	*/
@@ -22,9 +24,9 @@ export type Options = {
 };
 
 /**
-Restart the app when a file changes.
+Restart the app when a main process file changes, and reload the windows when any other file changes.
 
-An ES module has no module graph, so main process files cannot be distinguished from renderer files. Any watched file change restarts the app.
+A main process file is a JavaScript file the main process has loaded. Other files the main process uses, like JSON modules, files read with `fs`, and worker scripts, are not main process files, so a change to them does not restart the app.
 
 @param importMeta - The `import.meta` object of the main process entry file.
 
