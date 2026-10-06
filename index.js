@@ -42,14 +42,28 @@ export default function electronReloader(importMeta, {watchRenderer = true, igno
 	});
 	session.post('Debugger.enable');
 
+	const defaultIgnored = [
+		/(?:^|[\/\\])\../v, // Dotfiles
+		/(?:^|[\/\\])node_modules(?:[\/\\]|$)/v,
+		/\.map$/v,
+	];
+
 	const watcher = chokidar.watch(cwd, {
 		cwd,
 		ignored: [
-			/(?:^|[\/\\])\../v, // Dotfiles
-			/(?:^|[\/\\])node_modules(?:[\/\\]|$)/v,
-			/\.map$/v,
+			// Tested against the path relative to the package directory, so a package inside a dot-directory or `node_modules` is still watched.
+			filePath => {
+				const relativePath = path.relative(cwd, filePath);
+				return defaultIgnored.some(regex => regex.test(relativePath));
+			},
 			...(ignore ?? []),
 		],
+		ignorePermissionErrors: true,
+	});
+
+	// Without a listener, a watcher error, like too many open files, would crash the app.
+	watcher.on('error', error => {
+		console.error('electron-reloader:', error);
 	});
 
 	app.on('quit', () => {
