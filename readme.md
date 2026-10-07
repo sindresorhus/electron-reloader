@@ -17,21 +17,24 @@ npm install --save-dev electron-reloader
 The following must be included in the app entry file, usually named `index.js`:
 
 ```js
+let reloader;
 try {
-	const {default: reload} = await import('electron-reloader');
-
-	reload(import.meta);
+	reloader = await import('electron-reloader');
 } catch {}
+
+reloader?.default(import.meta);
 ```
 
 You have to pass `import.meta` so we can find the directory to watch.
 
 A main process file is a JavaScript file the main process has loaded. Other files the main process uses, like JSON modules, files read with `fs`, and worker scripts, are not main process files, so a change to them does not restart the app.
 
-The `try/catch` is needed so it doesn't throw `Cannot find module 'electron-reloader'` in production.
+The `try/catch` is needed so it doesn't throw `Cannot find package 'electron-reloader'` in production. It only wraps the import, so you still see errors from a wrong setup.
 
 > [!NOTE]
 > The restarted app is a new process. Its output still goes to the terminal, but the `electron` command exits on the first restart, so the terminal prompt comes back and <kbd>Ctrl</kbd>+<kbd>C</kbd> does not quit the app. Quit the app normally instead.
+>
+> If the restarted app fails to load, for example because of a syntax error, it no longer reloads. Quit it and start it again.
 
 ## API
 

@@ -32,11 +32,12 @@ A main process file is a JavaScript file the main process has loaded. Other file
 
 @example
 ```
+let reloader;
 try {
-	const {default: reload} = await import('electron-reloader');
-
-	reload(import.meta);
+	reloader = await import('electron-reloader');
 } catch {}
+
+reloader?.default(import.meta);
 ```
 */
 export default function electronReloader(importMeta: ImportMeta, options?: Options): void;
