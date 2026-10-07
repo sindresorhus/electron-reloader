@@ -1,4 +1,5 @@
 import {spawn} from 'node:child_process';
+import fs from 'node:fs';
 import {Session} from 'node:inspector';
 import path from 'node:path';
 import process from 'node:process';
@@ -32,12 +33,21 @@ export default function electronReloader(importMeta, {watchRenderer = true, igno
 	const mainProcessFiles = new Set();
 	let isRelaunching = false;
 
+	// The watcher reports paths through symlinks, while V8 reports them with symlinks resolved but with the letter case of the import, so both are compared as real paths.
+	const realPath = filePath => {
+		try {
+			return fs.realpathSync.native(filePath);
+		} catch {
+			return filePath;
+		}
+	};
+
 	// An ES module has no public module graph, so the inspector is used to know which files belong to the main process. When the debugger is enabled, V8 reports the scripts that are already loaded, and then each new one.
 	const session = new Session();
 	session.connect();
 	session.on('Debugger.scriptParsed', ({params: {url}}) => {
 		if (url.startsWith('file:')) {
-			mainProcessFiles.add(fileURLToPath(url));
+			mainProcessFiles.add(realPath(fileURLToPath(url)));
 		}
 	});
 	session.post('Debugger.enable');
@@ -88,7 +98,7 @@ export default function electronReloader(importMeta, {watchRenderer = true, igno
 			return;
 		}
 
-		if (!mainProcessFiles.has(path.join(cwd, filePath))) {
+		if (!mainProcessFiles.has(realPath(path.join(cwd, filePath)))) {
 			if (!watchRenderer) {
 				return;
 			}
